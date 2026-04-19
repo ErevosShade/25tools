@@ -1,0 +1,16 @@
+{
+  "name": "25tools",
+  "short_name": "25tools",
+  "description": "Free online utility tools for developers and creators",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#FFFFFF",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ]
+}

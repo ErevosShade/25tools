@@ -74,13 +74,13 @@ export function Footer() {
       <div className="border-t border-[#E5E5E5]">
         <div className="mx-auto max-w-6xl px-5 h-12 flex items-center justify-between gap-4">
           <p className="text-[13px] font-[400] text-[#6B6B6B] m-0">
-            © {new Date().getFullYear()} Toolbox. All rights reserved.
+            © {new Date().getFullYear()} 25tools. All rights reserved.
           </p>
           <Link
             href="/"
             className="text-[13px] font-[500] text-[#0A0A0A] leading-none tracking-[-0.01em]"
           >
-            Toolbox
+            25tools
           </Link>
         </div>
       </div>

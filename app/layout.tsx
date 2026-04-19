@@ -13,8 +13,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Toolbox — Free Online Utility Tools",
-    template: "%s | Toolbox",
+    default: "25tools — Free Online Utility Tools",
+    template: "%s | 25tools",
   },
   description:
     "A collection of fast, free, and privacy-friendly utility tools for developers and creators. No login required.",
@@ -26,15 +26,15 @@ export const metadata: Metadata = {
     "converter",
     "formatter",
   ],
-  authors: [{ name: "Toolbox" }],
-  creator: "Toolbox",
+  authors: [{ name: "25tools" }],
+  creator: "25tools",
   metadataBase: new URL("https://yourdomain.com"),
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://yourdomain.com",
-    siteName: "Toolbox",
-    title: "Toolbox — Free Online Utility Tools",
+    siteName: "25tools",
+    title: "25tools — Free Online Utility Tools",
     description:
       "Fast, free, and privacy-friendly utility tools. No login required.",
     images: [
@@ -42,13 +42,13 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Toolbox — Free Online Utility Tools",
+        alt: "25tools — Free Online Utility Tools",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Toolbox — Free Online Utility Tools",
+    title: "25tools — Free Online Utility Tools",
     description:
       "Fast, free, and privacy-friendly utility tools. No login required.",
     images: ["/og-image.png"],
@@ -66,8 +66,6 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: "/favicon.ico",
-    shortcut: "/favicon-16x16.png",
-    apple: "/apple-touch-icon.png",
   },
   manifest: "/site.webmanifest",
 };
@@ -84,7 +82,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable} suppressHydrationWarning>
+    <html lang="en" className={inter.variable} suppressHydrationWarning data-scroll-behavior="smooth">
       <body className="min-h-dvh flex flex-col bg-white text-[#0A0A0A] antialiased">
         <Navbar />
         <main className="flex-1">
