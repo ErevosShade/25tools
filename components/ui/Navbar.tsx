@@ -36,7 +36,7 @@ export function Navbar() {
             href="/"
             className="text-[16px] font-[500] text-[#0A0A0A] leading-none tracking-[-0.02em] shrink-0"
           >
-            Toolbox
+            25tools
           </Link>
 
           {/* ── Center nav (desktop) ── */}
