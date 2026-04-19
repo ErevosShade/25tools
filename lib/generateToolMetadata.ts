@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { TOOLS }         from "@/lib/tools";
+import { BASE_URL } from "@/lib/constants";
 
-const BASE_URL = "https://25tools.dev";
 
 export function generateToolMetadata(slug: string): Metadata {
   const tool = TOOLS.find((t) => t.slug === slug);

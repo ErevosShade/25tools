@@ -1,6 +1,5 @@
 import type { Tool } from "@/lib/tools";
-
-const BASE_URL = "https://25tools.dpdns.org";
+import { BASE_URL } from "@/lib/constants";
 
 export interface SoftwareApplicationSchema {
   "@context":           string;
