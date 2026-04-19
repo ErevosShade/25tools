@@ -16,6 +16,9 @@ export const metadata: Metadata = {
     default: "25tools — Free Online Utility Tools",
     template: "%s | 25tools",
   },
+  verification: {
+    google: "voWCwiFZpS_giEvTkZz8RijgI4tdMY05NpB4TY6Pdp8" // paste ONLY the content value
+  },
   description:
     "A collection of fast, free, and privacy-friendly utility tools for developers and creators. No login required.",
   keywords: [
