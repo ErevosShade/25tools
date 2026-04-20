@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
   },
 
   // ── Sharp + pdf-lib as server-only packages ───────────────
-  serverExternalPackages: ["sharp", "pdf-lib"],
+  serverExternalPackages: [],
 
   // ── Security headers ──────────────────────────────────────
   async headers() {
