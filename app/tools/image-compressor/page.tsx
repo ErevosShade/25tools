@@ -92,21 +92,48 @@ export default function ImageCompressorPage() {
   const [loading,    setLoading]    = useState(false);
   const [results,    setResults]    = useState<CompressedItem[]>([]);
   const [error,      setError]      = useState("");
+  // 🆕 ADDED: progress state for chunked compression feedback
+  const [progress,   setProgress]   = useState({ current: 0, total: 0 });
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const ALLOWED = ["image/jpeg", "image/png", "image/webp"];
+  // 🆕 ADDED: limits
+  const ALLOWED         = ["image/jpeg", "image/png", "image/webp"];
+  const MAX_MB          = 50;
+  const MAX_BATCH_MB    = 500;
+  const MAX_FILES       = 20;
+  const MAX_BYTES       = MAX_MB * 1024 * 1024;
+  const MAX_BATCH_BYTES = MAX_BATCH_MB * 1024 * 1024;
 
   // ── Add files ──
+  // 🆕 UPDATED: added per-file, batch, and file count validation
   const addFiles = useCallback(async (incoming: FileList | File[]) => {
     const arr = Array.from(incoming).filter((f) => ALLOWED.includes(f.type));
     if (arr.length === 0) {
       setError("Only JPG, PNG or WebP files are accepted.");
       return;
     }
-    setError("");
+
+    const oversized = arr.filter((f) => f.size > MAX_BYTES);
+    if (oversized.length > 0) {
+      setError(
+        `${oversized.map((f) => f.name).join(", ")} exceed${oversized.length === 1 ? "s" : ""} ${MAX_MB}MB and were skipped.`
+      );
+    } else {
+      setError("");
+    }
+
+    const valid = arr.filter((f) => f.size <= MAX_BYTES);
+    if (valid.length === 0) return;
+
+    const batchSize = valid.reduce((sum, f) => sum + f.size, 0);
+    if (batchSize > MAX_BATCH_BYTES) {
+      setError(`Total batch size exceeds ${MAX_BATCH_MB}MB. Please upload fewer files at once.`);
+      return;
+    }
+
     setResults([]);
     const newItems: ImageItem[] = await Promise.all(
-      arr.map(async (file) => {
+      valid.map(async (file) => {
         const { width, height } = await getDimensions(file);
         return {
           id:         uid(),
@@ -117,7 +144,8 @@ export default function ImageCompressorPage() {
         };
       })
     );
-    setImages((prev) => [...prev, ...newItems].slice(0, 20));
+    // 🆕 UPDATED: cap uses MAX_FILES constant
+    setImages((prev) => [...prev, ...newItems].slice(0, MAX_FILES));
   }, []);
 
   const handleDrop = useCallback((e: React.DragEvent) => {
@@ -136,38 +164,47 @@ export default function ImageCompressorPage() {
   };
 
   // ── Compress — 100% browser, no API ──
+  // 🆕 UPDATED: replaced Promise.all with chunked loop (3 at a time) + progress tracking
   const handleCompress = useCallback(async () => {
     if (images.length === 0) return;
     setLoading(true);
     setError("");
     setResults([]);
+    setProgress({ current: 0, total: images.length });
 
     try {
-      const compressed = await Promise.all(
-        images.map(async (item) => {
-          const options = {
-            maxSizeMB:        qualityToMaxSizeMB(quality),
-            maxWidthOrHeight: 1920,
-            useWebWorker:     true,
-            fileType:         item.file.type as "image/jpeg" | "image/png" | "image/webp",
-          };
+      const CHUNK_SIZE = 3;
+      const compressed: CompressedItem[] = [];
 
-          const compressedFile = await imageCompression(item.file, options);
-
-          return {
-            id:             item.id,
-            name:           item.file.name,
-            originalSize:   item.file.size,
-            compressedSize: compressedFile.size,
-            blobUrl:        URL.createObjectURL(compressedFile),
-          };
-        })
-      );
-      setResults(compressed);
+      for (let i = 0; i < images.length; i += CHUNK_SIZE) {
+        const chunk = images.slice(i, i + CHUNK_SIZE);
+        const chunkResults = await Promise.all(
+          chunk.map(async (item) => {
+            const options = {
+              maxSizeMB:        qualityToMaxSizeMB(quality),
+              maxWidthOrHeight: 1920,
+              useWebWorker:     true,
+              fileType:         item.file.type as "image/jpeg" | "image/png" | "image/webp",
+            };
+            const compressedFile = await imageCompression(item.file, options);
+            return {
+              id:             item.id,
+              name:           item.file.name,
+              originalSize:   item.file.size,
+              compressedSize: compressedFile.size,
+              blobUrl:        URL.createObjectURL(compressedFile),
+            };
+          })
+        );
+        compressed.push(...chunkResults);
+        setResults([...compressed]);
+        setProgress({ current: Math.min(i + CHUNK_SIZE, images.length), total: images.length });
+      }
     } catch (e) {
       setError(e instanceof Error ? e.message : "Compression failed. Please try again.");
     } finally {
       setLoading(false);
+      setProgress({ current: 0, total: 0 });
     }
   }, [images, quality]);
 
@@ -236,8 +273,9 @@ export default function ImageCompressorPage() {
           <p className="text-[13px] font-[500] text-[#0A0A0A] m-0 leading-none">
             {isDragging ? "Drop images here" : "Drag & drop or click to upload"}
           </p>
+          {/* 🆕 UPDATED: hint text reflects real limits */}
           <p className="text-[11px] text-[#6B6B6B] m-0 leading-none">
-            JPG, PNG, WebP — no size limit
+            JPG, PNG, WebP — up to {MAX_MB}MB per file · max {MAX_FILES} images
           </p>
           <input
             ref={inputRef}
@@ -360,13 +398,16 @@ export default function ImageCompressorPage() {
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0A0A0A] focus-visible:ring-offset-2"
           )}
         >
+          {/* 🆕 UPDATED: shows X/Y progress during chunked compression */}
           {loading ? (
             <>
               <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
               </svg>
-              Compressing…
+              {progress.total > 0
+                ? `Compressing ${progress.current}/${progress.total}…`
+                : "Compressing…"}
             </>
           ) : (
             `Compress ${images.length > 1 ? `${images.length} images` : "image"}`
