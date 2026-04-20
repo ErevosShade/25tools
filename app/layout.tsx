@@ -5,77 +5,95 @@ import { Navbar } from "@/components/ui/Navbar";
 import { Footer } from "@/components/ui/Footer";
 
 const inter = Inter({
-  subsets: ["latin"],
+  subsets:  ["latin"],
   variable: "--font-inter",
-  display: "swap",
-  weight: ["400", "500"],
+  display:  "swap",
+  weight:   ["400", "500"],
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://25tools.vercel.app"),
+
   title: {
-    default: "25tools — Free Online Utility Tools",
+    default:  "25tools — 25 Free Developer & Productivity Tools",
     template: "%s | 25tools",
   },
-  verification: {
-    google: "voWCwiFZpS_giEvTkZz8RijgI4tdMY05NpB4TY6Pdp8" // paste ONLY the content value
-  },
+
   description:
-    "A collection of fast, free, and privacy-friendly utility tools for developers and creators. No login required.",
+    "25+ free online tools for developers and creators. JSON formatter, image compressor, PDF merger, regex tester and more. No sign-up required.",
+
   keywords: [
+    "free developer tools",
     "online tools",
-    "developer tools",
-    "utility tools",
-    "text tools",
-    "converter",
-    "formatter",
+    "json formatter",
+    "image compressor",
+    "pdf merger",
+    "regex tester",
+    "base64 encoder",
+    "word counter",
+    "25tools",
+    "25tools",
   ],
-  authors: [{ name: "25tools" }],
-  creator: "25tools",
-  metadataBase: new URL("https://yourdomain.com"),
+
+  authors:  [{ name: "25tools", url: "https://25tools.vercel.app" }],
+  creator:  "25tools",
+  publisher:"25tools",
+
+  // ── Google Search Console verification ──
+  verification: {
+    google: "PASTE_YOUR_CODE_HERE",
+  },
+
   openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: "https://yourdomain.com",
-    siteName: "25tools",
-    title: "25tools — Free Online Utility Tools",
-    description:
-      "Fast, free, and privacy-friendly utility tools. No login required.",
+    type:        "website",
+    locale:      "en_US",
+    url:         "https://25tools.vercel.app",
+    siteName:    "25tools",
+    title:       "25tools — 25 Free Developer & Productivity Tools",
+    description: "25+ free online tools for developers and creators. No sign-up required.",
     images: [
       {
-        url: "/og-image.png",
-        width: 1200,
+        url:    "/og-image.png",
+        width:  1200,
         height: 630,
-        alt: "25tools — Free Online Utility Tools",
+        alt:    "25tools — Free Developer Tools",
       },
     ],
   },
+
   twitter: {
-    card: "summary_large_image",
-    title: "25tools — Free Online Utility Tools",
-    description:
-      "Fast, free, and privacy-friendly utility tools. No login required.",
-    images: ["/og-image.png"],
+    card:        "summary_large_image",
+    title:       "25tools — 25 Free Developer & Productivity Tools",
+    description: "25+ free online tools for developers and creators. No sign-up required.",
+    images:      ["/og-image.png"],
   },
+
   robots: {
-    index: true,
+    index:  true,
     follow: true,
     googleBot: {
-      index: true,
-      follow: true,
+      index:               true,
+      follow:              true,
       "max-video-preview": -1,
       "max-image-preview": "large",
-      "max-snippet": -1,
+      "max-snippet":       -1,
     },
   },
+
   icons: {
     icon: "/favicon.ico",
   },
+
   manifest: "/site.webmanifest",
+
+  alternates: {
+    canonical: "https://25tools.vercel.app",
+  },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#FFFFFF",
-  width: "device-width",
+  themeColor:   "#FFFFFF",
+  width:        "device-width",
   initialScale: 1,
 };
 
@@ -85,12 +103,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable} suppressHydrationWarning data-scroll-behavior="smooth">
+    <html
+      lang="en"
+      className={inter.variable}
+      suppressHydrationWarning
+      data-scroll-behavior="smooth"
+    >
       <body className="min-h-dvh flex flex-col bg-white text-[#0A0A0A] antialiased">
         <Navbar />
-        <main className="flex-1">
-          {children}
-        </main>
+        <main className="flex-1">{children}</main>
         <Footer />
       </body>
     </html>
