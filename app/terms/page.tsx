@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title:       "Terms of Use | 25tools",
-  description: "Terms of use for 25tools.dpdns.org — free tools provided as-is, no warranty.",
+  description: "Terms of use for 25tools.vercel.app — free tools provided as-is, no warranty.",
 };
 
 export default function TermsPage() {
@@ -29,10 +29,10 @@ export default function TermsPage() {
           These Terms of Use govern your access to and use of{" "}
           <strong className="font-[500]">25tools</strong> at{" "}
           <a
-            href="https://25tools.dpdns.org"
+            href="https://25tools.vercel.app/"
             className="text-[#0A0A0A] underline underline-offset-3 hover:no-underline transition-all duration-100"
           >
-            25tools.dpdns.org
+            25tools.vercel.app
           </a>
           {" "}(&ldquo;the Site&rdquo;), operated by DevKit25. By using the Site you agree to
           these terms. If you do not agree, please do not use the Site.
@@ -158,10 +158,10 @@ export default function TermsPage() {
           <p>
             For any questions about these Terms of Use, please contact us at{" "}
             <a
-              href="mailto:hello@25tools.dpdns.org"
+              href="mailto:hello@25tools.vercel.app"
               className="text-[#0A0A0A] underline underline-offset-3 hover:no-underline"
             >
-              hello@25tools.dpdns.org
+              hello@25tools.vercel.app
             </a>
             .
           </p>

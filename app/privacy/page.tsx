@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title:       "Privacy Policy | 25tools",
-  description: "Privacy policy for 25tools.dpdns.org — we collect no personal data and require no accounts.",
+  description: "Privacy policy for 25tools.vercel.app — we collect no personal data and require no accounts.",
 };
 
 export default function PrivacyPage() {
@@ -29,10 +29,10 @@ export default function PrivacyPage() {
           This Privacy Policy explains how <strong className="font-[500]">25tools</strong> (&ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;),
           operated at{" "}
           <a
-            href="https://25tools.dpdns.org"
+            href="https://25tools.vercel.app/"
             className="text-[#0A0A0A] underline underline-offset-3 hover:no-underline transition-all duration-100"
           >
-            25tools.dpdns.org
+            25tools.vercel.app
           </a>
           , handles information when you use our free online tools. The short version:{" "}
           <strong className="font-[500]">we collect no personal data.</strong>
@@ -133,10 +133,10 @@ export default function PrivacyPage() {
           <p>
             If you have any questions about this Privacy Policy, please contact us at{" "}
             <a
-              href="mailto:hello@25tools.dpdns.org"
+              href="mailto:hello@25tools.vercel.app"
               className="text-[#0A0A0A] underline underline-offset-3 hover:no-underline"
             >
-              hello@25tools.dpdns.org
+              hello@25tools.vercel.app
             </a>
             .
           </p>
