@@ -1,5 +1,3 @@
-"use client";
-
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -34,14 +32,14 @@ export default function NotFound() {
       >
         Browse all tools
       </Link>
-
-      {/* Back link */}
-      <button
-        onClick={() => window.history.back()}
+    
+      <Link
+        href="/"
         className="mt-4 text-[13px] font-[400] text-[#6B6B6B] hover:text-[#0A0A0A] transition-colors duration-100 underline underline-offset-2 hover:no-underline"
       >
         ← Go back
-      </button>
+      </Link>
+      {/* Back link */}
 
     </div>
   );
