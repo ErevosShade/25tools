@@ -6,21 +6,18 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
-  { label: "Tools",   href: "/tools"   },
-  { label: "Pricing", href: "/pricing" },
-  { label: "Blog",    href: "/blog"    },
+  { label: "Tools", href: "/tools" },
+  { label: "About", href: "/about" },
 ] as const;
 
 export function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const pathname = usePathname();
 
-  // Close drawer on route change
   useEffect(() => {
     setDrawerOpen(false);
   }, [pathname]);
 
-  // Lock body scroll when drawer is open
   useEffect(() => {
     document.body.style.overflow = drawerOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
@@ -61,18 +58,19 @@ export function Navbar() {
 
           {/* ── Right slot ── */}
           <div className="flex items-center gap-3 shrink-0">
+            {/* About link (desktop) */}
             <Link
-              href="/pro"
+              href="/about"
               className={cn(
-                "hidden md:inline-flex items-center justify-center",
-                "h-8 px-4 rounded-full",
-                "bg-[#0A0A0A] text-white",
-                "text-[13px] font-[500] leading-none",
-                "transition-colors duration-100 hover:bg-[#1a1a1a]",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0A0A0A] focus-visible:ring-offset-2"
+                "hidden md:inline-flex items-center",
+                "text-[14px] font-[400] leading-none",
+                "transition-colors duration-100",
+                pathname === "/about"
+                  ? "text-[#0A0A0A]"
+                  : "text-[#6B6B6B] hover:text-[#0A0A0A]"
               )}
             >
-              Go Pro
+              About
             </Link>
 
             {/* Hamburger (mobile only) */}
@@ -90,43 +88,35 @@ export function Navbar() {
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0A0A0A] focus-visible:ring-offset-1"
               )}
             >
-              {/* Animated bars */}
-              <span
-                className={cn(
-                  "block w-[18px] h-[1.5px] bg-current rounded-full transition-transform duration-200 origin-center",
-                  drawerOpen && "translate-y-[6.5px] rotate-45"
-                )}
-              />
-              <span
-                className={cn(
-                  "block w-[18px] h-[1.5px] bg-current rounded-full transition-opacity duration-200",
-                  drawerOpen && "opacity-0"
-                )}
-              />
-              <span
-                className={cn(
-                  "block w-[18px] h-[1.5px] bg-current rounded-full transition-transform duration-200 origin-center",
-                  drawerOpen && "-translate-y-[6.5px] -rotate-45"
-                )}
-              />
+              <span className={cn(
+                "block w-[18px] h-[1.5px] bg-current rounded-full transition-transform duration-200 origin-center",
+                drawerOpen && "translate-y-[6.5px] rotate-45"
+              )} />
+              <span className={cn(
+                "block w-[18px] h-[1.5px] bg-current rounded-full transition-opacity duration-200",
+                drawerOpen && "opacity-0"
+              )} />
+              <span className={cn(
+                "block w-[18px] h-[1.5px] bg-current rounded-full transition-transform duration-200 origin-center",
+                drawerOpen && "-translate-y-[6.5px] -rotate-45"
+              )} />
             </button>
           </div>
 
         </div>
       </header>
 
-      {/* ── Mobile drawer overlay ── */}
+      {/* ── Mobile overlay ── */}
       <div
         aria-hidden={!drawerOpen}
         onClick={() => setDrawerOpen(false)}
         className={cn(
-          "fixed inset-0 z-40 bg-black/20",
-          "transition-opacity duration-200",
+          "fixed inset-0 z-40 bg-black/20 transition-opacity duration-200",
           drawerOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         )}
       />
 
-      {/* ── Mobile drawer panel ── */}
+      {/* ── Mobile drawer ── */}
       <div
         id="mobile-drawer"
         role="dialog"
@@ -135,8 +125,7 @@ export function Navbar() {
         className={cn(
           "fixed top-14 left-0 right-0 z-40",
           "bg-white border-b border-[#E5E5E5]",
-          "transition-all duration-200 ease-in-out",
-          "md:hidden",
+          "transition-all duration-200 ease-in-out md:hidden",
           drawerOpen
             ? "opacity-100 translate-y-0 pointer-events-auto"
             : "opacity-0 -translate-y-2 pointer-events-none"
@@ -159,21 +148,6 @@ export function Navbar() {
               {label}
             </Link>
           ))}
-
-          <div className="pt-4 pb-2">
-            <Link
-              href="/pro"
-              className={cn(
-                "inline-flex items-center justify-center w-full",
-                "h-9 rounded-full",
-                "bg-[#0A0A0A] text-white",
-                "text-[13px] font-[500] leading-none",
-                "transition-colors duration-100 hover:bg-[#1a1a1a]"
-              )}
-            >
-              Go Pro
-            </Link>
-          </div>
         </nav>
       </div>
     </>
