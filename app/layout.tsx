@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   creator:   "25tools",
   publisher: "25tools",
   verification: {
-    google: "PASTE_YOUR_CODE_HERE",
+    google: "0zjvvGzTzRVTnW3i_Dg6SF5RTx1iNn4IdgKF9T3uwjI",
   },
   openGraph: {
     type:        "website",
