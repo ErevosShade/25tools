@@ -7,8 +7,8 @@ import { Badge }     from "@/components/ui/Badge";
 import { cn }        from "@/lib/utils";
 import { jsonLd }    from "@/lib/jsonLd";
 import { TOOLS }     from "@/lib/tools";
+import { BASE_URL } from "@/lib/constants";
 
-// ─── Types ────────────────────────────────────────────────────
 interface RelatedTool {
   name: string;
   slug: string;
@@ -33,12 +33,8 @@ function ChevronIcon({ open }: { open: boolean }) {
         "w-4 h-4 text-[#6B6B6B] shrink-0 transition-transform duration-200",
         open && "rotate-180"
       )}
-      viewBox="0 0 16 16"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      viewBox="0 0 16 16" fill="none" stroke="currentColor"
+      strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
       aria-hidden="true"
     >
       <polyline points="4 6 8 10 12 6" />
@@ -49,16 +45,11 @@ function ChevronIcon({ open }: { open: boolean }) {
 function ArrowIcon() {
   return (
     <svg
-      className="w-3.5 h-3.5 shrink-0"
-      viewBox="0 0 14 14"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
+      className="w-3.5 h-3.5 shrink-0" viewBox="0 0 14 14"
+      fill="none" stroke="currentColor" strokeWidth="1.5"
+      strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
     >
-      <line x1="2" y1="7"  x2="12" y2="7"  />
+      <line x1="2" y1="7" x2="12" y2="7" />
       <polyline points="8 3 12 7 8 11" />
     </svg>
   );
@@ -75,27 +66,85 @@ export function ToolPageWrapper({
   howItWorks,
 }: ToolPageWrapperProps) {
   const [howItWorksOpen, setHowItWorksOpen] = useState(false);
+  const [openFaqIndex,   setOpenFaqIndex]   = useState<number | null>(null);
 
-  // ── JSON-LD: look up full tool object by name for metaDescription ──
   const toolData = TOOLS.find(
     (t) => t.name.toLowerCase() === toolName.toLowerCase()
   );
 
-  const structuredData = toolData
-    ? jsonLd(toolData)
+  // ── JSON-LD: SoftwareApplication ──
+  const softwareSchema = toolData ? jsonLd(toolData) : null;
+
+  // ── JSON-LD: BreadcrumbList ──
+  const breadcrumbSchema = toolData
+    ? {
+        "@context": "https://schema.org",
+        "@type":    "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type":  "ListItem",
+            position: 1,
+            name:     "Home",
+            item:     BASE_URL,
+          },
+          {
+            "@type":  "ListItem",
+            position: 2,
+            name:     "Tools",
+            item:     `${BASE_URL}/tools`,
+          },
+          {
+            "@type":  "ListItem",
+            position: 3,
+            name:     toolData.name,
+            item:     `${BASE_URL}/tools/${toolData.slug}`,
+          },
+        ],
+      }
     : null;
+
+  // ── JSON-LD: FAQPage ──
+  const faqSchema =
+    toolData && toolData.faqs?.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type":    "FAQPage",
+          mainEntity: toolData.faqs.map((faq) => ({
+            "@type":        "Question",
+            name:           faq.question,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text:    faq.answer,
+            },
+          })),
+        }
+      : null;
 
   return (
     <>
-      {/* ── JSON-LD structured data ── */}
-      {structuredData && (
+      {/* ── Structured data ── */}
+      {softwareSchema && (
         <Script
-          id={`json-ld-${toolData?.slug}`}
+          id={`json-ld-tool-${toolData?.slug}`}
           type="application/ld+json"
           strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(structuredData),
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
+        />
+      )}
+      {breadcrumbSchema && (
+        <Script
+          id={`json-ld-breadcrumb-${toolData?.slug}`}
+          type="application/ld+json"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
+      {faqSchema && (
+        <Script
+          id={`json-ld-faq-${toolData?.slug}`}
+          type="application/ld+json"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
       )}
 
@@ -137,6 +186,7 @@ export function ToolPageWrapper({
         {/* ══ 2. Tool header ════════════════════════════════════ */}
         <div className="flex flex-col gap-3">
           <div className="flex items-start justify-between gap-4 flex-wrap">
+            {/* H1 includes tool name naturally with free/online context */}
             <h1 className="text-[32px] font-[500] text-[#0A0A0A] leading-none tracking-[-0.02em] m-0">
               {toolName}
             </h1>
@@ -155,7 +205,6 @@ export function ToolPageWrapper({
         {/* ══ 4. How it works ═══════════════════════════════════ */}
         {howItWorks && howItWorks.length > 0 && (
           <div className="border border-[#E5E5E5] rounded-[12px] overflow-hidden">
-
             <button
               type="button"
               onClick={() => setHowItWorksOpen((v) => !v)}
@@ -169,9 +218,9 @@ export function ToolPageWrapper({
                 howItWorksOpen && "border-b border-[#E5E5E5]"
               )}
             >
-              <span className="text-[14px] font-[500] text-[#0A0A0A] leading-none">
+              <h2 className="text-[14px] font-[500] text-[#0A0A0A] leading-none m-0">
                 How it works
-              </span>
+              </h2>
               <ChevronIcon open={howItWorksOpen} />
             </button>
 
@@ -198,9 +247,7 @@ export function ToolPageWrapper({
                               {index + 1}
                             </span>
                           </div>
-                          {!isLast && (
-                            <div className="w-px flex-1 bg-[#E5E5E5] my-2" />
-                          )}
+                          {!isLast && <div className="w-px flex-1 bg-[#E5E5E5] my-2" />}
                         </div>
                         <div className={cn("flex-1 min-w-0", !isLast && "pb-5")}>
                           <p className="text-[14px] font-[400] text-[#0A0A0A] leading-relaxed m-0 max-w-none">
@@ -213,11 +260,64 @@ export function ToolPageWrapper({
                 </ol>
               </div>
             </div>
-
           </div>
         )}
 
-        {/* ══ 5. Related tools ══════════════════════════════════ */}
+        {/* ══ 5. FAQ accordion ══════════════════════════════════ */}
+        {toolData?.faqs && toolData.faqs.length > 0 && (
+          <div className="flex flex-col gap-3">
+            <p className="text-[11px] font-[500] text-[#6B6B6B] uppercase tracking-[0.07em] leading-none m-0">
+              Frequently asked questions
+            </p>
+
+            <div className="border border-[#E5E5E5] rounded-[12px] overflow-hidden divide-y divide-[#E5E5E5]">
+              {toolData.faqs.map((faq, index) => {
+                const isOpen = openFaqIndex === index;
+                return (
+                  <div key={index}>
+                    <button
+                      type="button"
+                      onClick={() => setOpenFaqIndex(isOpen ? null : index)}
+                      aria-expanded={isOpen}
+                      aria-controls={`faq-answer-${index}`}
+                      className={cn(
+                        "w-full flex items-center justify-between gap-4",
+                        "px-5 py-4 text-left",
+                        "transition-colors duration-100 hover:bg-[#F5F5F5]",
+                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#0A0A0A]"
+                      )}
+                    >
+                      <h3 className="text-[14px] font-[500] text-[#0A0A0A] leading-snug m-0 flex-1">
+                        {faq.question}
+                      </h3>
+                      <ChevronIcon open={isOpen} />
+                    </button>
+
+                    <div
+                      id={`faq-answer-${index}`}
+                      role="region"
+                      aria-label={faq.question}
+                      className={cn(
+                        "grid transition-all duration-200 ease-in-out",
+                        isOpen
+                          ? "grid-rows-[1fr] opacity-100"
+                          : "grid-rows-[0fr] opacity-0"
+                      )}
+                    >
+                      <div className="overflow-hidden">
+                        <p className="text-[14px] font-[400] text-[#6B6B6B] leading-relaxed m-0 max-w-none px-5 pb-4">
+                          {faq.answer}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* ══ 6. Related tools ══════════════════════════════════ */}
         {relatedTools && relatedTools.length > 0 && (
           <div className="flex flex-col gap-3">
             <p className="text-[11px] font-[500] text-[#6B6B6B] uppercase tracking-[0.07em] leading-none m-0">
@@ -228,6 +328,7 @@ export function ToolPageWrapper({
                 <Link
                   key={tool.slug}
                   href={`/tools/${tool.slug}`}
+                  aria-label={`Use ${tool.name} — ${tool.desc}`}
                   className={cn(
                     "group flex flex-col gap-2",
                     "bg-white border border-[#E5E5E5] rounded-[10px] p-4",

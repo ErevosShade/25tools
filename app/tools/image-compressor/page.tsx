@@ -300,7 +300,7 @@ export default function ImageCompressorPage() {
                 >
                   <img
                     src={item.previewUrl}
-                    alt={item.file.name}
+                    alt={`Preview of ${item.file.name}`}
                     className="w-12 h-12 rounded-[6px] object-cover border border-[#E5E5E5] shrink-0"
                   />
                   <div className="flex-1 min-w-0 flex flex-col gap-1.5">

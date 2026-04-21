@@ -110,7 +110,7 @@ export default function QrGeneratorPage() {
             <div className="p-4 rounded-[10px] border border-[#E5E5E5] bg-white inline-flex">
               <img
                 src={dataUrl}
-                alt="QR Code"
+                alt={`QR code for: ${text}`}
                 width={Math.min(size, 256)}
                 height={Math.min(size, 256)}
                 className="block"
