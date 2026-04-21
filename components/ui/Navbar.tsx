@@ -58,21 +58,7 @@ export function Navbar() {
 
           {/* ── Right slot ── */}
           <div className="flex items-center gap-3 shrink-0">
-            {/* About link (desktop) */}
-            <Link
-              href="/about"
-              className={cn(
-                "hidden md:inline-flex items-center",
-                "text-[14px] font-[400] leading-none",
-                "transition-colors duration-100",
-                pathname === "/about"
-                  ? "text-[#0A0A0A]"
-                  : "text-[#6B6B6B] hover:text-[#0A0A0A]"
-              )}
-            >
-              About
-            </Link>
-
+            {/* Placeholder for future right-aligned items (e.g. theme toggle) */}
             {/* Hamburger (mobile only) */}
             <button
               type="button"
