@@ -257,34 +257,6 @@ export default function HomePage() {
         )}
 
       </section>
-
-      {/* ══ CTA strip ═════════════════════════════════════════ */}
-      <section className="border-t border-[#E5E5E5]">
-        <div className="mx-auto max-w-6xl px-5 py-14 flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div className="flex flex-col gap-1 text-center sm:text-left">
-            <p className="text-[15px] font-[500] text-[#0A0A0A] m-0 tracking-[-0.01em]">
-              Need more? Go Pro.
-            </p>
-            <p className="text-[13px] font-[400] text-[#6B6B6B] m-0">
-              Unlock batch processing, API access, and priority support.
-            </p>
-          </div>
-          <Link
-            href="/pro"
-            className={cn(
-              "inline-flex items-center justify-center shrink-0",
-              "h-9 px-5 rounded-full",
-              "bg-[#0A0A0A] text-white",
-              "text-[13px] font-[500] leading-none",
-              "transition-colors duration-100 hover:bg-[#1a1a1a]",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0A0A0A] focus-visible:ring-offset-2"
-            )}
-          >
-            View Pro plans →
-          </Link>
-        </div>
-      </section>
-
     </div>
   );
 }
