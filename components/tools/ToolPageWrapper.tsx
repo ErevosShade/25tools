@@ -127,7 +127,7 @@ export function ToolPageWrapper({
         <Script
           id={`json-ld-tool-${toolData?.slug}`}
           type="application/ld+json"
-          strategy="beforeInteractive"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
         />
       )}
@@ -135,7 +135,7 @@ export function ToolPageWrapper({
         <Script
           id={`json-ld-breadcrumb-${toolData?.slug}`}
           type="application/ld+json"
-          strategy="beforeInteractive"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
         />
       )}
@@ -143,7 +143,7 @@ export function ToolPageWrapper({
         <Script
           id={`json-ld-faq-${toolData?.slug}`}
           type="application/ld+json"
-          strategy="beforeInteractive"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
       )}
