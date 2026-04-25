@@ -10,12 +10,6 @@ const nextConfig: NextConfig = {
     imageSizes:       [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL:  60 * 60 * 24 * 30,
   },
-  allowedDevOrigins: [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "http://192.168.*.*",
-    "192.168.100.57"   // optional: local network access
-  ],
 
   serverExternalPackages: [],
 
