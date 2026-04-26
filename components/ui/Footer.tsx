@@ -11,9 +11,12 @@ const FOOTER_COLUMNS: FooterColumn[] = [
   {
     heading: "Product",
     links: [
-      { label: "Tools",     href: "/tools"     },
-      { label: "About",     href: "/about"     },
-      { label: "Changelog", href: "/changelog" },
+      { label: "All Tools",        href: "/tools"            },
+      { label: "Developer Tools",  href: "/tools/developer"  },
+      { label: "PDF Tools",        href: "/tools/pdf"        },
+      { label: "Image Tools",      href: "/tools/image"      },
+      { label: "Text Tools",       href: "/tools/text"       },
+      { label: "About",            href: "/about"            },
     ],
   },
   {
