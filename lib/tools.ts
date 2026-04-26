@@ -196,7 +196,7 @@ export const TOOLS: Tool[] = [
   },
   {
     name:     "PageTrim - PDF Cutter Tool ",
-    slug:     "pdf-cutter",
+    slug:     "page-trim",
     category: "PDF",
     desc:     "Remove specific pages from a PDF visually",
     free:     true,
