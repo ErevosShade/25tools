@@ -14,9 +14,7 @@ export function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const pathname = usePathname();
 
-  useEffect(() => {
-    setDrawerOpen(false);
-  }, [pathname]);
+  useEffect(() => { setDrawerOpen(false); }, [pathname]);
 
   useEffect(() => {
     document.body.style.overflow = drawerOpen ? "hidden" : "";
@@ -31,9 +29,13 @@ export function Navbar() {
           {/* ── Logo ── */}
           <Link
             href="/"
-            className="text-[16px] font-[500] text-[#0A0A0A] leading-none tracking-[-0.02em] shrink-0"
+            className="flex items-center gap-1.5 shrink-0 group"
+            aria-label="25tools — home"
           >
-            25tools
+            <span className="w-1.5 h-1.5 rounded-full bg-[#0A0A0A] group-hover:scale-125 transition-transform duration-150" />
+            <span className="text-[16px] font-[500] text-[#0A0A0A] leading-none tracking-[-0.02em]">
+              25tools
+            </span>
           </Link>
 
           {/* ── Center nav (desktop) ── */}
@@ -43,10 +45,8 @@ export function Navbar() {
                 key={href}
                 href={href}
                 className={cn(
-                  "px-3 py-1.5 rounded-md",
-                  "text-[14px] font-[400] leading-none",
-                  "transition-colors duration-100",
-                  pathname === href
+                  "px-3 py-1.5 rounded-md text-[14px] font-[400] leading-none transition-colors duration-100",
+                  pathname === href || pathname.startsWith(href + "/")
                     ? "text-[#0A0A0A]"
                     : "text-[#6B6B6B] hover:text-[#0A0A0A]"
                 )}
@@ -58,8 +58,7 @@ export function Navbar() {
 
           {/* ── Right slot ── */}
           <div className="flex items-center gap-3 shrink-0">
-            {/* Placeholder for future right-aligned items (e.g. theme toggle) */}
-            {/* Hamburger (mobile only) */}
+            {/* Hamburger (mobile) */}
             <button
               type="button"
               aria-label={drawerOpen ? "Close menu" : "Open menu"}
@@ -68,31 +67,21 @@ export function Navbar() {
               onClick={() => setDrawerOpen((v) => !v)}
               className={cn(
                 "md:hidden flex flex-col justify-center items-center",
-                "w-8 h-8 gap-[5px] rounded-md",
-                "text-[#0A0A0A]",
+                "w-8 h-8 gap-[5px] rounded-md text-[#0A0A0A]",
                 "transition-colors duration-100 hover:bg-[#F5F5F5]",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0A0A0A] focus-visible:ring-offset-1"
               )}
             >
-              <span className={cn(
-                "block w-[18px] h-[1.5px] bg-current rounded-full transition-transform duration-200 origin-center",
-                drawerOpen && "translate-y-[6.5px] rotate-45"
-              )} />
-              <span className={cn(
-                "block w-[18px] h-[1.5px] bg-current rounded-full transition-opacity duration-200",
-                drawerOpen && "opacity-0"
-              )} />
-              <span className={cn(
-                "block w-[18px] h-[1.5px] bg-current rounded-full transition-transform duration-200 origin-center",
-                drawerOpen && "-translate-y-[6.5px] -rotate-45"
-              )} />
+              <span className={cn("block w-[18px] h-[1.5px] bg-current rounded-full transition-transform duration-200 origin-center", drawerOpen && "translate-y-[6.5px] rotate-45")} />
+              <span className={cn("block w-[18px] h-[1.5px] bg-current rounded-full transition-opacity duration-200",              drawerOpen && "opacity-0")} />
+              <span className={cn("block w-[18px] h-[1.5px] bg-current rounded-full transition-transform duration-200 origin-center", drawerOpen && "-translate-y-[6.5px] -rotate-45")} />
             </button>
           </div>
 
         </div>
       </header>
 
-      {/* ── Mobile overlay ── */}
+      {/* ── Overlay ── */}
       <div
         aria-hidden={!drawerOpen}
         onClick={() => setDrawerOpen(false)}
@@ -109,12 +98,9 @@ export function Navbar() {
         aria-label="Mobile navigation"
         aria-modal="true"
         className={cn(
-          "fixed top-14 left-0 right-0 z-40",
-          "bg-white border-b border-[#E5E5E5]",
+          "fixed top-14 left-0 right-0 z-40 bg-white border-b border-[#E5E5E5]",
           "transition-all duration-200 ease-in-out md:hidden",
-          drawerOpen
-            ? "opacity-100 translate-y-0 pointer-events-auto"
-            : "opacity-0 -translate-y-2 pointer-events-none"
+          drawerOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-2 pointer-events-none"
         )}
       >
         <nav className="flex flex-col px-5 py-3" aria-label="Mobile navigation">
@@ -123,12 +109,8 @@ export function Navbar() {
               key={href}
               href={href}
               className={cn(
-                "py-3 border-b border-[#E5E5E5] last:border-none",
-                "text-[14px] font-[400] leading-none",
-                "transition-colors duration-100",
-                pathname === href
-                  ? "text-[#0A0A0A]"
-                  : "text-[#6B6B6B] hover:text-[#0A0A0A]"
+                "py-3 border-b border-[#E5E5E5] last:border-none text-[14px] font-[400] leading-none transition-colors duration-100",
+                pathname === href ? "text-[#0A0A0A]" : "text-[#6B6B6B] hover:text-[#0A0A0A]"
               )}
             >
               {label}

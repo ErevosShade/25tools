@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { BASE_URL } from "@/lib/constants";
+import { BASE_URL }           from "@/lib/constants";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -10,7 +10,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow:  ["/api/"],
       },
     ],
-    sitemap:  `${BASE_URL}/sitemap.xml`,
-    host:     BASE_URL,
+    sitemap: `${BASE_URL}/sitemap.xml`,
+    host:    BASE_URL,
   };
 }

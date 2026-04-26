@@ -5,10 +5,7 @@ type FooterLink =
   | { label: string; href: string; external?: false }
   | { label: string; href: string; external: true };
 
-type FooterColumn = {
-  heading: string;
-  links:   FooterLink[];
-};
+type FooterColumn = { heading: string; links: FooterLink[] };
 
 const FOOTER_COLUMNS: FooterColumn[] = [
   {
@@ -56,12 +53,7 @@ export function Footer() {
                 {column.links.map((link) => (
                   <li key={link.label}>
                     {link.external === true ? (
-                      <a
-                        href={link.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={linkClass}
-                      >
+                      <a href={link.href} target="_blank" rel="noopener noreferrer" className={linkClass}>
                         {link.label}
                         <span className="sr-only">(opens in new tab)</span>
                       </a>
@@ -79,16 +71,19 @@ export function Footer() {
       </div>
 
       <div className="border-t border-[#E5E5E5]">
-        <div className="mx-auto max-w-6xl px-5 h-12 flex items-center justify-between gap-4">
-          <p className="text-[13px] font-[400] text-[#6B6B6B] m-0">
-            &copy; {new Date().getFullYear()} 25tools. All rights reserved.
+        <div className="mx-auto max-w-6xl px-5 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="flex flex-col items-center sm:items-start gap-1">
+            <Link href="/" className="flex items-center gap-1.5 group">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#0A0A0A] group-hover:scale-125 transition-transform duration-150" />
+              <span className="text-[13px] font-[500] text-[#0A0A0A] leading-none tracking-[-0.01em]">25tools</span>
+            </Link>
+            <p className="text-[12px] font-[400] text-[#9B9B9B] leading-none m-0">
+              20 free tools. No sign-up. No limits.
+            </p>
+          </div>
+          <p className="text-[12px] font-[400] text-[#9B9B9B] m-0 text-center sm:text-right">
+            &copy; 2025 25tools. Built for the web, free for everyone.
           </p>
-          <Link
-            href="/"
-            className="text-[13px] font-[500] text-[#0A0A0A] leading-none tracking-[-0.01em]"
-          >
-            25tools
-          </Link>
         </div>
       </div>
 

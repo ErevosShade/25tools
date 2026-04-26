@@ -5,16 +5,16 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
 
   images: {
-    formats:          ["image/avif", "image/webp"],
-    deviceSizes:      [640, 750, 828, 1080, 1200, 1920],
-    imageSizes:       [16, 32, 48, 64, 96, 128, 256, 384],
-    minimumCacheTTL:  60 * 60 * 24 * 30,
+    formats:         ["image/avif", "image/webp"],
+    deviceSizes:     [640, 750, 828, 1080, 1200, 1920],
+    imageSizes:      [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 60 * 60 * 24 * 30,
   },
 
   serverExternalPackages: [],
 
   experimental: {
-    optimizeCss: true,   // ← added
+    optimizeCss: true,
   },
 
   async headers() {
@@ -42,7 +42,18 @@ const nextConfig: NextConfig = {
 
   async redirects() {
     return [
-      { source: "/tools/", destination: "/tools", permanent: true },
+      // Slug rename redirect
+      {
+        source:      "/tools/pdf-cutter",
+        destination: "/tools/page-trim",
+        permanent:   true,
+      },
+      // Trailing slash canonicalization
+      {
+        source:      "/tools/",
+        destination: "/tools",
+        permanent:   true,
+      },
     ];
   },
 };
